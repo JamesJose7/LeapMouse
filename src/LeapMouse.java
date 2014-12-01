@@ -1,9 +1,11 @@
 import com.leapmotion.leap.*;
+import com.leapmotion.leap.Gesture.State;
 import com.leapmotion.leap.Gesture.Type;
 
 import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 class CustomListener extends Listener {
 	
@@ -49,6 +51,9 @@ class CustomListener extends Listener {
 			} else if (gesture.type() == Type.TYPE_SCREEN_TAP) {
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
+			} else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
+				robot.keyPress(KeyEvent.VK_WINDOWS);
+				robot.keyRelease(KeyEvent.VK_WINDOWS);
 			}
 		}
 		
