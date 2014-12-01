@@ -37,7 +37,14 @@ public class LeapMouse {
 		Controller controller = new Controller();
 		controller.addListener(listener);
 		
+		try {
+			System.in.read();
+		} catch (Exception e) {
+			
+		}
 		
+		controller.removeListener(listener);
 	}
-
 }
+
+
