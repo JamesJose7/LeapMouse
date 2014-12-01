@@ -1,4 +1,6 @@
 import com.leapmotion.leap.*;
+import com.leapmotion.leap.Gesture.Type;
+
 import java.awt.Dimension;
 import java.awt.Robot;
 
@@ -19,12 +21,21 @@ class CustomListener extends Listener {
 		
 		Frame frame = controller.frame();
 		InteractionBox box = frame.interactionBox();
-		for (Finger f : frame.fingers()) {
-			if (f.type() == Finger.Type.TYPE_INDEX) {
-				Vector fingerPos = f.stabilizedTipPosition();
+		for (Finger finger : frame.fingers()) {
+			if (finger.type() == Finger.Type.TYPE_INDEX) {
+				Vector fingerPos = finger.stabilizedTipPosition();
 				Vector boxFingerPos = box.normalizePoint(fingerPos);
 				Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 				robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
+			}
+		}
+		
+		for (Gesture gesture : frame.gestures()) {
+			if (gesture.type() == Type.TYPE_CIRCLE) {
+				CircleGesture circle = new CircleGesture(gesture);
+				if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI/4) {
+					robot.mouseWheel(1);
+				}
 			}
 		}
 	}
