@@ -35,7 +35,10 @@ class CustomListener extends Listener {
 				CircleGesture circle = new CircleGesture(gesture);
 				if (circle.pointable().direction().angleTo(circle.normal()) <= Math.PI/4) {
 					robot.mouseWheel(1);
+				} else {
+					robot.mouseWheel(-1);
 				}
+					
 			}
 		}
 	}
