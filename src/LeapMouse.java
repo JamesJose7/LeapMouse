@@ -21,7 +21,7 @@ class CustomListener extends Listener {
 		InteractionBox box = frame.interactionBox();
 		for (Finger f : frame.fingers()) {
 			if (f.type() == Finger.Type.TYPE_INDEX) {
-				Vector fingerPos = f.tipPosition();
+				Vector fingerPos = f.stabilizedTipPosition();
 				Vector boxFingerPos = box.normalizePoint(fingerPos);
 				Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 				robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
