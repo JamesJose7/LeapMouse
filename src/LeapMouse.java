@@ -3,6 +3,7 @@ import com.leapmotion.leap.Gesture.Type;
 
 import java.awt.Dimension;
 import java.awt.Robot;
+import java.awt.event.InputEvent;
 
 class CustomListener extends Listener {
 	
@@ -45,8 +46,13 @@ class CustomListener extends Listener {
 					} catch (Exception e) {}
 				}
 					
+			} else if (gesture.type() == Type.TYPE_SCREEN_TAP) {
+				robot.mousePress(InputEvent.BUTTON1_MASK);
+				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			}
 		}
+		
+		
 	}
 }
 
