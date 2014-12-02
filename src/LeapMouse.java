@@ -26,11 +26,15 @@ class CustomListener extends Listener {
 		Frame frame = controller.frame();
 		InteractionBox box = frame.interactionBox();
 		for (Finger finger : frame.fingers()) {
-			if (finger.type() == Finger.Type.TYPE_INDEX) {
-				Vector fingerPos = finger.stabilizedTipPosition();
-				Vector boxFingerPos = box.normalizePoint(fingerPos);
-				Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-				robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
+			for (Hand hand : frame.hands()) {
+				if (hand.isRight()) {
+					if (finger.type() == Finger.Type.TYPE_INDEX) {
+						Vector fingerPos = finger.stabilizedTipPosition();
+						Vector boxFingerPos = box.normalizePoint(fingerPos);
+						Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+						robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
+					}
+				}
 			}
 		}
 		
@@ -49,10 +53,10 @@ class CustomListener extends Listener {
 					} catch (Exception e) {}
 				}
 					
-			} /*else if (gesture.type() == Type.TYPE_SCREEN_TAP) {
+			} else if (gesture.type() == Type.TYPE_SCREEN_TAP) {
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
-			}*/ else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
+			} else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
 				robot.keyPress(KeyEvent.VK_WINDOWS);
 				robot.keyRelease(KeyEvent.VK_WINDOWS);
 			} else if (gesture.type() == Type.TYPE_KEY_TAP && gesture.state() == State.STATE_STOP) {
