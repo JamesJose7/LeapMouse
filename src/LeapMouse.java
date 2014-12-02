@@ -15,6 +15,7 @@ class CustomListener extends Listener {
 		controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
 		controller.enableGesture(Gesture.Type.TYPE_SWIPE);
 		controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
+		controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
 	}
 	
 	public void onFrame(Controller controller) {
@@ -48,13 +49,17 @@ class CustomListener extends Listener {
 					} catch (Exception e) {}
 				}
 					
-			} else if (gesture.type() == Type.TYPE_SCREEN_TAP) {
+			} /*else if (gesture.type() == Type.TYPE_SCREEN_TAP) {
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
-			} else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
+			}*/ else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
 				robot.keyPress(KeyEvent.VK_WINDOWS);
 				robot.keyRelease(KeyEvent.VK_WINDOWS);
+			} else if (gesture.type() == Type.TYPE_KEY_TAP && gesture.state() == State.STATE_STOP) {
+				robot.mousePress(InputEvent.BUTTON1_MASK);
+				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			}
+			
 		}
 		
 		
