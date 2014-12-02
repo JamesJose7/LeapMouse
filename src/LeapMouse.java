@@ -26,15 +26,11 @@ class CustomListener extends Listener {
 		Frame frame = controller.frame();
 		InteractionBox box = frame.interactionBox();
 		for (Finger finger : frame.fingers()) {
-			for (Hand hand : frame.hands()) {
-				if (hand.isRight()) {
-					if (finger.type() == Finger.Type.TYPE_INDEX) {
-						Vector fingerPos = finger.stabilizedTipPosition();
-						Vector boxFingerPos = box.normalizePoint(fingerPos);
-						Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-						robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
-					}
-				}
+				if (finger.type() == Finger.Type.TYPE_INDEX) {
+					Vector fingerPos = finger.stabilizedTipPosition();
+					Vector boxFingerPos = box.normalizePoint(fingerPos);
+					Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+					robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
 			}
 		}
 		
