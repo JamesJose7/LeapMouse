@@ -16,6 +16,11 @@ class CustomListener extends Listener {
 		controller.enableGesture(Gesture.Type.TYPE_SWIPE);
 		controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
 		controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
+		
+		
+		controller.setPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
+		controller.setPolicy(Controller.PolicyFlag.POLICY_IMAGES);
+		controller.setPolicy(Controller.PolicyFlag.POLICY_OPTIMIZE_HMD);
 	}
 	
 	public void onFrame(Controller controller) {
@@ -25,13 +30,18 @@ class CustomListener extends Listener {
 		
 		Frame frame = controller.frame();
 		InteractionBox box = frame.interactionBox();
+
+		
+		
 		for (Finger finger : frame.fingers()) {
 				if (finger.type() == Finger.Type.TYPE_INDEX) {
+					
 					Vector fingerPos = finger.stabilizedTipPosition();
 					Vector boxFingerPos = box.normalizePoint(fingerPos);
 					Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 					robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
-			}
+				}
+		
 		}
 		
 		for (Gesture gesture : frame.gestures()) {
