@@ -45,9 +45,7 @@ class CustomListener extends Listener {
 		
 		}
 		
-		String [] keys = {
-				"VK_CONTROL", "VK_LEFT"
-		};
+		
 		
 		for (Gesture gesture : frame.gestures()) {
 			if (gesture.type() == Type.TYPE_CIRCLE) {
@@ -68,15 +66,18 @@ class CustomListener extends Listener {
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			} else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
-				
+				String [] keys = {
+						"VK_CONTROL", "VK_LEFT"
+				};
 				//WINDOWS
 				/*robot.keyPress(KeyEvent.VK_WINDOWS);
 				robot.keyRelease(KeyEvent.VK_WINDOWS);*/
 				
 				//OS X
 				sendKeysCombo(keys);
-			} else if (gesture.type() == Type.TYPE_KEY_TAP && gesture.state() == State.STATE_STOP) {
 				
+			} else if (gesture.type() == Type.TYPE_KEY_TAP && gesture.state() == State.STATE_STOP) {
+				//KEY TAP event
 			}
 			
 		}
