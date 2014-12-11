@@ -6,10 +6,11 @@ import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 
 class CustomListener extends Listener {
 	
-	public Robot robot;
+	public static Robot robot;
 	
 	public void onConnect(Controller controller) {
 		controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
@@ -44,6 +45,10 @@ class CustomListener extends Listener {
 		
 		}
 		
+		String [] keys = {
+				"VK_CONTROL", "VK_LEFT"
+		};
+		
 		for (Gesture gesture : frame.gestures()) {
 			if (gesture.type() == Type.TYPE_CIRCLE) {
 				CircleGesture circle = new CircleGesture(gesture);
@@ -63,16 +68,42 @@ class CustomListener extends Listener {
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			} else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
-				robot.keyPress(KeyEvent.VK_WINDOWS);
-				robot.keyRelease(KeyEvent.VK_WINDOWS);
+				
+				//WINDOWS
+				/*robot.keyPress(KeyEvent.VK_WINDOWS);
+				robot.keyRelease(KeyEvent.VK_WINDOWS);*/
+				
+				//OS X
+				sendKeysCombo(keys);
 			} else if (gesture.type() == Type.TYPE_KEY_TAP && gesture.state() == State.STATE_STOP) {
-				robot.mousePress(InputEvent.BUTTON1_MASK);
-				robot.mouseRelease(InputEvent.BUTTON1_MASK);
+				
 			}
 			
 		}
 		
 		
+	}
+	
+	public static void sendKeysCombo(String keys[]) {
+		try {
+			
+			Class<?> cl = KeyEvent.class;
+			
+			int [] intKeys = new int [keys.length];
+			
+			for (int i = 0; i < keys.length; i++) {
+				Field field = cl.getDeclaredField(keys[i]);
+				intKeys[i] = field.getInt(field);
+				robot.keyPress(intKeys[i]);
+			}
+			
+			for (int i = keys.length - 1; i >= 0; i--)
+                robot.keyRelease(intKeys[i]);
+			
+		} 
+		catch (Throwable e) {
+			System.err.println(e);
+		}
 	}
 }
 
@@ -88,6 +119,7 @@ public class LeapMouse {
 		} catch (Exception e) {
 			
 		}
+		
 		
 		controller.removeListener(listener);
 	}
