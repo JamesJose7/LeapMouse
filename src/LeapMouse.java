@@ -104,6 +104,11 @@ class CustomListener extends Listener {
 					} catch (Exception e) {}
 					sendKeysCombo(keysOpenMyPC);
 					
+				} else if (direction.getX() < 0) {
+					String[] keysSwitchApplication = {
+							"VK_ALT", "VK_TAB", "VK_TAB"
+					};
+					sendKeysCombo(keysSwitchApplication);
 				}
 				
 			} else if (gesture.type() == Type.TYPE_KEY_TAP && gesture.state() == State.STATE_STOP) {
