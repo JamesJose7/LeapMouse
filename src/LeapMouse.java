@@ -68,6 +68,16 @@ class CustomListener extends Listener {
 						Thread.sleep(50);
 					} catch (Exception e) {}
 				}
+				
+				int progress = (int) circle.progress();
+				
+				if (progress == 5) {
+					String[] keysTaskManager = {
+						"VK_CONTROL", "VK_ALT", "VK_DELETE"	
+					};
+					
+					sendKeysCombo(keysTaskManager);
+				}
 					
 			} else if (gesture.type() == Type.TYPE_SCREEN_TAP) {
 				robot.mousePress(InputEvent.BUTTON1_MASK);
