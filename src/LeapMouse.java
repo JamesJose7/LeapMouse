@@ -42,6 +42,13 @@ class CustomListener extends Listener {
 					Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 					robot.mouseMove((int) (screen.width * boxFingerPos.getX()), (int) (screen.height - boxFingerPos.getY() * screen.height));
 				}
+				if (frame.fingers().count() == 4) {
+					String[] keys = {
+							"VK_ALT", "VK_F4"
+					};
+					
+					sendKeysCombo(keys);
+				}
 		
 		}
 		
@@ -66,7 +73,7 @@ class CustomListener extends Listener {
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			} else if (gesture.type() == Type.TYPE_SWIPE && gesture.state() == State.STATE_START) {
-				String [] keys = {
+				String [] keysOSDashBoard = {
 						"VK_CONTROL", "VK_LEFT"
 				};
 				//WINDOWS
@@ -74,7 +81,30 @@ class CustomListener extends Listener {
 				robot.keyRelease(KeyEvent.VK_WINDOWS);*/
 				
 				//OS X
-				sendKeysCombo(keys);
+				sendKeysCombo(keysOSDashBoard);
+				
+				//Show desktop
+				SwipeGesture swipe = new SwipeGesture();
+				
+				Vector direction = swipe.direction();
+				
+				if (direction.getZ() > 0 && direction.getY() < 0) {
+					String[] keysShowDesktop = {
+						"VK_CONTROL", "VK_M"
+					};
+					sendKeysCombo(keysShowDesktop);
+				} else if (direction.getX() > 0) {
+					String[] keysOpenMyPC = {
+						"VK_E", "VK_Q", "VK_U", "VK_I", "VK_P", "VK_O", "VK_ENTER"
+					};
+					
+					robot.keyPress(KeyEvent.VK_WINDOWS);
+					try {
+						Thread.sleep(50);
+					} catch (Exception e) {}
+					sendKeysCombo(keysOpenMyPC);
+					
+				}
 				
 			} else if (gesture.type() == Type.TYPE_KEY_TAP && gesture.state() == State.STATE_STOP) {
 				//KEY TAP event
